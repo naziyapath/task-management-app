@@ -2,9 +2,9 @@ name: CI - Task Management App
 
 on:
   push:
-    branches: ["main"]
+    branches: [ "main" ]
   pull_request:
-    branches: ["main"]
+    branches: [ "main" ]
 
 jobs:
   build:
@@ -13,7 +13,7 @@ jobs:
     steps:
       # Checkout code
       - name: Checkout repository
-      uses: actions/checkout@v3
+        uses: actions/checkout@v3
 
       # ---------- BACKEND ----------
       - name: Use Node for Backend
