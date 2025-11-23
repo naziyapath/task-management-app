@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout code
+      # Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
@@ -27,7 +27,12 @@ jobs:
 
       - name: Run Backend Tests (skip if none exist)
         working-directory: backend
-        run: npm test --if-present
+        run: |
+          if npm run | grep -q " test"; then
+            npm test
+          else
+            echo "No backend tests found — skipping."
+          fi
 
       # ---------- FRONTEND ----------
       - name: Setup Node for Frontend
