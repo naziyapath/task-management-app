@@ -7,8 +7,14 @@ services:
     container_name: task-backend
     ports:
       - "3000:3000"
-    env_file:
-      - ./backend/.env
+    environment:
+      MONGODB_URI: ${MONGODB_URI}
+      JWT_SECRET: ${JWT_SECRET}
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_PORT: ${SMTP_PORT}
+      SMTP_SERVICE: ${SMTP_SERVICE}
+      SMTP_MAIL: ${SMTP_MAIL}
+      SMTP_APP_PASS: ${SMTP_APP_PASS}
     depends_on:
       - mongo
 
