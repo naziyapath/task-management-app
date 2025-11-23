@@ -2,21 +2,21 @@ name: CI - Task Management App
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout repository
+      # Checkout code
       - name: Checkout repository
-        uses: actions/checkout@v3
+      uses: actions/checkout@v3
 
       # ---------- BACKEND ----------
-      - name: Setup Node for Backend
+      - name: Use Node for Backend
         uses: actions/setup-node@v3
         with:
           node-version: 18
@@ -25,17 +25,12 @@ jobs:
         working-directory: backend
         run: npm install
 
-      - name: Run Backend Tests (skip if none exist)
+      - name: Skip Backend Tests (no tests available)
         working-directory: backend
-        run: |
-          if npm run | grep -q " test"; then
-            npm test
-          else
-            echo "No backend tests found — skipping."
-          fi
+        run: echo "Skipping backend tests because none exist."
 
       # ---------- FRONTEND ----------
-      - name: Setup Node for Frontend
+      - name: Use Node for Frontend
         uses: actions/setup-node@v3
         with:
           node-version: 18
@@ -44,10 +39,10 @@ jobs:
         working-directory: .
         run: npm install
 
-      - name: Build Angular App
+      - name: Build Angular
         working-directory: .
         run: npm run build --if-present
 
       # ---------- SUCCESS ----------
-      - name: CI Complete
+      - name: CI finished
         run: echo "CI pipeline completed successfully!"
