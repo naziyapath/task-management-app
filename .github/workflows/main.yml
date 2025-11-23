@@ -1,0 +1,48 @@
+name: CI - Task Management App
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout code
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # ---------- BACKEND ----------
+      - name: Setup Node for Backend
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install Backend Dependencies
+        working-directory: backend
+        run: npm install
+
+      - name: Run Backend Tests (skip if none exist)
+        working-directory: backend
+        run: npm test --if-present
+
+      # ---------- FRONTEND ----------
+      - name: Setup Node for Frontend
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install Frontend Dependencies
+        working-directory: .
+        run: npm install
+
+      - name: Build Angular App
+        working-directory: .
+        run: npm run build --if-present
+
+      # ---------- SUCCESS ----------
+      - name: CI Complete
+        run: echo "CI pipeline completed successfully!"
